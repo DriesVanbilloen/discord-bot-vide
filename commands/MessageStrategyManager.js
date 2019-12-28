@@ -3,12 +3,12 @@ class MessageStrategyManager {
     this._strategies = [];
   }
 
-  addStrategy(strategy) {
-    this._strategies = [...this._strategies, strategy];
+  addStrategy(strategy, handler) {
+    this._strategies = [...this._strategies, new Strategy(strategy, handler)];
   }
 
   getStrategy(name) {
-    return this.__strategies.find(strategy => strategy._name === name);
+    return this._strategies.find(strategy => strategy._name === name);
   }
 }
 

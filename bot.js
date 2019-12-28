@@ -1,27 +1,27 @@
 const Discord = require('discord.js');
 const MessageValidator = require('./utils/message-validator');
-import { initiateMessageHanlders } from './commands/MessageInitiator';
+const { initiateMessageHanlders } = require('./commands/MessageInitiator');
 
 const client = new Discord.Client();
 const auth = require('./auth/auth.json');
-const messageInitiator = new MessageInitiator();
+const messageHandlers = initiateMessageHanlders();
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  initiateMessageHanlders();
 });
 
 client.on('message', msg => {
-  var messageArray = msg.split(' ');
+  var messageArray = msg.content.split(' ');
   var prefix = messageArray[0];
 
   if (MessageValidator.isPrefix(prefix)) {
-    if (messageArray.length < 2) {
-
+    if (messageArray.length > 1) {;
+      var handler = messageHandlers.getStrategy(messageArray[1]);
+      handler.doAction();
+    } else {
+      msg.reply("Please make sure to have a valid command for me! \n >>> These are my commands: \n 1. spotify: to control the spotify feature");
     }
   }
-
-  //// TODO: Message handlers
 });
 
 client.on('message', msg => {
@@ -29,5 +29,5 @@ client.on('message', msg => {
     msg.reply('pong');
   }
 });
-
+console.log(auth.token);
 client.login(auth.token);
