@@ -1,8 +1,14 @@
 const MessageStrategyManager = require('./MessageStrategyManager');
+const { handleSpotify } = require('./handlers/spotify/SpotifyMessageHandler');
 
 exports.initiateMessageHanlders = () => {
   const messageManager = new MessageStrategyManager();
-  messageManager.addStrategy('spotify', function() { console.log('Open Spotify functions')});
-  messageManager.addStrategy('poll', console.log('Open Poll function'));
+  messageManager.addStrategy('spotify', function(message) {
+    handleSpotify(message);
+  });
+
+  messageManager.addStrategy('poll', function() {
+  });
+
   return messageManager;
 }

@@ -18,8 +18,8 @@ class Strategy {
     this._handler = handler;
   }
 
-  doAction() {
-    this._handler();
+  doAction(message) {
+    this._handler(message);
   }
 }
 
